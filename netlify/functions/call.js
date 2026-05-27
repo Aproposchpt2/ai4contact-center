@@ -18,7 +18,7 @@ function ariaTwiml(message, gatherAction, timeoutUrl) {
 <Response>
   <Say voice="Polly.Joanna-Neural">${escapeXml(message)}</Say>
   <Gather input="speech" action="${escapeXml(gatherAction)}" method="POST"
-          speechTimeout="3" speechModel="phone_call" enhanced="true" language="en-US">
+          speechTimeout="auto" actionOnEmptyResult="true" speechModel="phone_call" enhanced="true" language="en-US">
   </Gather>
   <Redirect method="POST">${escapeXml(timeoutUrl)}</Redirect>
 </Response>`;

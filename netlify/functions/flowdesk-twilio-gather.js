@@ -18,13 +18,35 @@ const { getSupabaseAdmin } = require('./lib/flowdesk-supabase-admin');
 const ESCALATION_RE = /\b(human|agent|person|representative|speak to someone|talk to someone|real person)\b/i;
 const URGENCY_TO_PRIORITY = { critical: 'hot', high: 'hot', medium: 'warm', low: 'normal' };
 const MAX_TURNS = 10;
+const FAREWELL_RE = /\b(have a great day|have a wonderful day|goodbye|take care|noted your request)\b/i;
+
+function extractNameFromHistory(history) {
+  for (let i = 0; i < history.length; i++) {
+    const msg = history[i];
+    if (msg.role !== 'user') continue;
+    const text = (msg.content || '').trim();
+    const m = text.match(/(?:my name is|i'm|i am|this is|call me)\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)/i);
+    if (m) return m[1];
+    // Short response after assistant explicitly asked for name
+    if (i > 0 && history[i - 1].role === 'assistant' && /\bname\b/i.test(history[i - 1].content || '')) {
+      const words = text.split(/\s+/);
+      if (words.length <= 3 && /^[A-Za-z]/.test(text)) return text;
+    }
+  }
+  return null;
+}
+
+function extractIntentFromHistory(history) {
+  const userMsgs = history.filter(m => m.role === 'user').map(m => m.content || '');
+  return userMsgs.sort((a, b) => b.length - a.length)[0] || 'Voice inquiry';
+}
 
 function ariaTwiml(message, gatherAction, timeoutUrl) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Say voice="Polly.Joanna-Neural">${escapeXml(message)}</Say>
   <Gather input="speech" action="${escapeXml(gatherAction)}" method="POST"
-          speechTimeout="2" speechModel="phone_call" enhanced="true" language="en-US">
+          speechTimeout="auto" actionOnEmptyResult="true" speechModel="phone_call" enhanced="true" language="en-US">
   </Gather>
   <Redirect method="POST">${escapeXml(timeoutUrl)}</Redirect>
 </Response>`;
@@ -314,6 +336,83 @@ exports.handler = async (event) => {
     return xml(200, `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Say voice="Polly.Joanna-Neural">${escapeXml(farewell)}</Say>
+  <Hangup/>
+</Response>`);
+  }
+
+  // Completion triggers: farewell words in response, soft turn limit, or name + reason both collected
+  const nameFromHistory = extractNameFromHistory(historyWithUser);
+  const hasReason = historyWithUser.filter(m => m.role === 'user').some(m => (m.content || '').split(/\s+/).length >= 5);
+  const conversationDone = FAREWELL_RE.test(claudeText) || turn >= 5 || (nameFromHistory && hasReason);
+
+  if (conversationDone) {
+    const softLead = {
+      caller_name: nameFromHistory,
+      intent: extractIntentFromHistory(historyWithUser),
+      urgency: 'medium',
+      summary: historyWithUser.filter(m => m.role === 'user').map(m => m.content).join('; '),
+      next_action: 'Follow up with caller',
+    };
+    const callbackPhone = normalizedFrom || null;
+    const callbackLast4 = callbackPhone ? callbackPhone.slice(-4) : phoneLast4;
+
+    if (callerId) {
+      try {
+        const callerUpdate = { last_intent_summary: softLead.intent, last_seen_at: new Date().toISOString() };
+        if (softLead.caller_name) callerUpdate.display_name = softLead.caller_name;
+        await supabase.from('flowdesk_callers').update(callerUpdate).eq('id', callerId);
+      } catch (e) { console.error('CALLER UPDATE ERROR:', e.message); }
+    }
+
+    if (sessionId) {
+      try {
+        await supabase.from('flowdesk_call_sessions').update({
+          raw_transcript: historyWithUser,
+          intent_summary: softLead.intent,
+          outcome: 'callback_requested',
+          status: 'completed',
+          ended_at: new Date().toISOString(),
+          ai_metadata: {
+            model_id: 'claude-sonnet-4-6',
+            input_tokens: claudeUsage.input_tokens || 0,
+            output_tokens: claudeUsage.output_tokens || 0,
+          },
+        }).eq('id', sessionId);
+      } catch (e) { console.error('SESSION UPDATE ERROR:', e.message); }
+    }
+
+    try {
+      await supabase.from('flowdesk_leads').insert({
+        caller_id: callerId || null,
+        session_id: sessionId || null,
+        contact_name: softLead.caller_name,
+        callback_phone: callbackPhone,
+        callback_phone_last4: callbackLast4,
+        interest_area: softLead.intent,
+        priority: 'warm',
+        lead_status: 'new',
+        source: 'conversational_ai_agent',
+      });
+    } catch (e) { console.error('LEAD INSERT ERROR:', e.message); }
+
+    try {
+      await supabase.from('conversation_history').update({ is_complete: true }).eq('call_sid', callSid);
+    } catch { /* non-fatal */ }
+
+    await Promise.allSettled([
+      sendEmailAlert(softLead, callbackLast4),
+      (softLead.urgency === 'high' || softLead.urgency === 'critical') ? sendSmsAlert(softLead, callbackLast4) : Promise.resolve(),
+    ]);
+
+    const farewellText = FAREWELL_RE.test(claudeText)
+      ? claudeText
+      : (softLead.caller_name
+          ? `Thank you ${softLead.caller_name}! We will follow up with you shortly. Have a wonderful day!`
+          : `Thank you for calling ${centerName}. We will be in touch shortly. Have a wonderful day!`);
+
+    return xml(200, `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Say voice="Polly.Joanna-Neural">${escapeXml(farewellText)}</Say>
   <Hangup/>
 </Response>`);
   }
