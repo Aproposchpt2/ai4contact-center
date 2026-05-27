@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Center Dashboard — FlowDesk Pro</title>
+  <meta name="theme-color" content="#020407" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+:root{
+  --bg:#020407;--deep:#06101f;--surface:#0A1424;--panel:#0D1B30;
+  --line:rgba(116,184,255,.18);--line2:rgba(115,230,255,.40);
+  --blue:#4A7FFF;--cyan:#73E6FF;--green:#55E6A5;--gold:#E6C26B;--red:#FF6B7A;--purple:#A993FF;
+  --text:#F4F8FF;--muted:#A8B8D0;--soft:#6E819B;
+  --shadow:0 28px 90px rgba(0,0,0,.45);--radius:20px;
+  font-family:'DM Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;color:var(--text);
+  background:
+    linear-gradient(rgba(115,230,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(115,230,255,.02) 1px,transparent 1px),
+    radial-gradient(circle at 8% 0%,rgba(74,127,255,.22),transparent 34rem),
+    radial-gradient(circle at 86% 18%,rgba(115,230,255,.10),transparent 30rem),
+    linear-gradient(180deg,#020407 0%,#06101f 52%,#081626 100%);
+  background-size:72px 72px,72px 72px,auto,auto,auto;
+}
+a{color:inherit;text-decoration:none} button,input,select{font:inherit} img{display:block;max-width:100%}
+
+.app{min-height:100vh;display:grid;grid-template-columns:278px minmax(0,1fr)}
+aside{
+  position:sticky;top:0;height:100vh;padding:22px 16px;
+  border-right:1px solid var(--line);background:rgba(2,4,7,.84);backdrop-filter:blur(22px);overflow:auto;
+}
+.brand{display:flex;align-items:center;gap:12px;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.brand-mark{width:48px;height:48px;border-radius:13px;border:1px solid rgba(115,230,255,.26);background:rgba(6,16,31,.88);display:grid;place-items:center;box-shadow:0 0 28px rgba(74,127,255,.26);overflow:hidden}
+.brand-mark img{width:90%;height:90%;object-fit:contain;filter:drop-shadow(0 0 14px rgba(115,230,255,.5))}
+.brand-name{font-family:'DM Serif Display',serif;font-size:1.05rem;line-height:1.1}
+.brand-name span{display:block;font-family:'JetBrains Mono',monospace;font-size:.54rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-top:2px}
+.nav-group{display:grid;gap:7px;margin-bottom:24px}
+.nav-link{display:flex;align-items:center;justify-content:space-between;min-height:42px;padding:9px 11px;border-radius:13px;color:var(--muted);border:1px solid transparent;font-size:.85rem;font-weight:700;transition:.16s}
+.nav-link:hover,.nav-link.active{color:var(--text);background:rgba(115,230,255,.07);border-color:rgba(115,230,255,.2)}
+.nav-pill{font-size:.65rem;color:var(--cyan);border:1px solid rgba(115,230,255,.22);border-radius:999px;padding:2px 8px;min-width:26px;text-align:center}
+.live-badge{display:flex;align-items:center;gap:8px;border:1px solid rgba(85,230,165,.28);border-radius:14px;background:rgba(85,230,165,.06);padding:11px 13px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;animation:livepulse 2s infinite}
+@keyframes livepulse{0%,100%{box-shadow:0 0 0 0 rgba(85,230,165,.4)}50%{box-shadow:0 0 0 6px rgba(85,230,165,0)}}
+.live-badge p{color:var(--soft);font-size:.77rem;line-height:1.45}
+.live-badge strong{display:block;color:var(--green);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+
+main{padding:24px;min-width:0}
+.topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px}
+.page-title h1{font-family:'DM Serif Display',serif;font-size:clamp(1.6rem,2.8vw,2.6rem);line-height:1.05;letter-spacing:-.01em}
+.page-title h1 em{font-style:italic;color:var(--cyan)}
+.page-title p{margin-top:7px;color:var(--muted);font-size:.9rem;line-height:1.65;max-width:620px}
+.business-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);background:rgba(115,230,255,.07);border:1px solid rgba(115,230,255,.18);border-radius:999px;padding:4px 12px;margin-top:10px}
+.top-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);cursor:pointer;font-weight:700;font-size:.78rem;letter-spacing:.05em;transition:.18s}
+.btn:hover{transform:translateY(-1px);border-color:var(--line2);background:rgba(115,230,255,.07)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btn.primary{color:#03101f;background:linear-gradient(135deg,var(--text),var(--cyan) 48%,var(--blue));border-color:rgba(115,230,255,.5);box-shadow:0 0 28px rgba(74,127,255,.24)}
+
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.metric{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015)),var(--panel);padding:18px;box-shadow:0 14px 40px rgba(0,0,0,.2)}
+.metric-label{color:var(--soft);font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.metric-value{font-size:2rem;font-weight:800;line-height:1}
+.metric-note{color:var(--muted);font-size:.75rem;margin-top:8px;line-height:1.4}
+.metric.active-metric .metric-value{color:var(--green)}
+.metric.hot-metric .metric-value{color:var(--red)}
+
+.feed-panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);box-shadow:var(--shadow);overflow:hidden}
+.feed-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 18px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.03)}
+.feed-head h2{font-size:1rem;display:flex;align-items:center;gap:9px}
+.feed-head p{color:var(--soft);font-size:.78rem;margin-top:4px}
+.feed-filters{display:flex;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.filt{min-height:38px;border:1px solid var(--line);border-radius:11px;background:rgba(2,4,7,.56);color:var(--text);padding:0 10px;outline:none;font-size:.84rem}
+.filt:focus{border-color:var(--line2)}
+.filt-search{flex:1;min-width:180px}
+.notice{margin:12px 16px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.03);padding:10px 13px;color:var(--muted);font-size:.83rem;line-height:1.45}
+.notice.ok{color:#b8ffdf;border-color:rgba(85,230,165,.3);background:rgba(85,230,165,.06)}
+.notice.err{color:#ffd3d9;border-color:rgba(255,107,122,.32);background:rgba(255,107,122,.06)}
+.call-list{display:grid;gap:9px;padding:14px;max-height:calc(100vh - 340px);overflow:auto}
+.empty{color:var(--soft);padding:32px;text-align:center;line-height:1.6}
+
+.call-card{border:1px solid var(--line);border-radius:16px;background:rgba(5,13,25,.7);padding:14px 16px;transition:.18s;position:relative;overflow:hidden}
+.call-card:hover{border-color:var(--line2);background:rgba(10,28,50,.9);transform:translateY(-1px)}
+.call-card.is-new{border-color:rgba(115,230,255,.42)}
+.call-card.is-new::before{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(115,230,255,.28);animation:newring 1.4s ease-out forwards}
+@keyframes newring{0%{box-shadow:inset 0 0 0 1px rgba(115,230,255,.6),0 0 24px rgba(115,230,255,.22)}100%{box-shadow:inset 0 0 0 1px rgba(115,230,255,.0),0 0 0 rgba(115,230,255,0)}}
+.call-card.is-active{border-color:rgba(85,230,165,.3)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:9px}
+.card-name{font-size:.97rem;font-weight:700;margin-bottom:3px}
+.card-intent{color:var(--muted);font-size:.83rem;line-height:1.4}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.badge{display:inline-flex;align-items:center;min-height:22px;border-radius:999px;padding:3px 9px;font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;white-space:nowrap;border:1px solid transparent;letter-spacing:.04em}
+.b-hot{color:#1a0005;background:var(--red)}
+.b-warm{color:#1f1400;background:var(--gold)}
+.b-normal{color:#001a10;background:var(--green)}
+.b-cold{color:var(--muted);background:rgba(168,184,208,.12);border-color:rgba(168,184,208,.2)}
+.b-active{color:#001a10;background:var(--green);animation:statusblink 1.8s infinite}
+@keyframes statusblink{0%,100%{opacity:1}50%{opacity:.6}}
+.b-completed{color:#dff8ff;background:rgba(74,127,255,.18);border-color:rgba(74,127,255,.3)}
+.b-pending{color:var(--muted);background:rgba(168,184,208,.1);border-color:rgba(168,184,208,.18)}
+.b-new-tag{color:#03101f;background:var(--cyan)}
+.card-meta{color:var(--soft);font-family:'JetBrains Mono',monospace;font-size:.65rem;margin-top:9px}
+.footer-note{margin-top:16px;color:var(--soft);font-size:.8rem;line-height:1.5;text-align:center}
+
+@media(max-width:1100px){.metrics{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.app{grid-template-columns:1fr}aside{position:static;height:auto}.nav-group{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){main{padding:14px}.metrics{grid-template-columns:1fr}.topbar{flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand">
+      <div class="brand-mark"><img src="AI4-FLOWDESK-PRO-LOGO.png" alt="FlowDesk Pro" /></div>
+      <div class="brand-name">FlowDesk Pro <span>Contact Center</span></div>
+    </div>
+    <nav class="nav-group" aria-label="Dashboard navigation">
+      <a class="nav-link active" href="/dashboard.html">Live Feed <span class="nav-pill">01</span></a>
+      <a class="nav-link" href="/demo-request.html">New Demo <span class="nav-pill">02</span></a>
+      <a class="nav-link" href="/">Overview <span class="nav-pill">03</span></a>
+    </nav>
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      <div>
+        <strong>Live Supabase Feed</strong>
+        <p>Reads from flowdesk_dashboard_leads view. No service keys or tokens in browser code.</p>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div class="page-title">
+        <h1>Contact Center <em>Live Feed</em></h1>
+        <p>Real-time call log, lead capture, and urgency triage — every Aria conversation as it happens.</p>
+        <div id="businessTag" class="business-tag" style="display:none"></div>
+      </div>
+      <div class="top-actions">
+        <span id="lastUpdated" style="color:var(--soft);font-size:.78rem;font-family:'JetBrains Mono',monospace"></span>
+        <button class="btn primary" id="refreshBtn" type="button">Refresh</button>
+      </div>
+    </header>
+
+    <section class="metrics" aria-label="Call metrics">
+      <article class="metric"><div class="metric-label">Total Calls</div><div class="metric-value" id="mTotal">—</div><div class="metric-note">All captured sessions.</div></article>
+      <article class="metric active-metric"><div class="metric-label">Active Now</div><div class="metric-value" id="mActive">—</div><div class="metric-note">Aria in conversation.</div></article>
+      <article class="metric hot-metric"><div class="metric-label">Hot Leads</div><div class="metric-value" id="mHot">—</div><div class="metric-note">High or critical urgency.</div></article>
+      <article class="metric"><div class="metric-label">Pending Review</div><div class="metric-value" id="mPending">—</div><div class="metric-note">Status: new.</div></article>
+    </section>
+
+    <section class="feed-panel" aria-labelledby="feed-title">
+      <div class="feed-head">
+        <div>
+          <h2 id="feed-title"><span class="live-dot" style="display:inline-block;margin-right:6px"></span>Incoming Call Log</h2>
+          <p id="feedSubtitle">Connecting to live records…</p>
+        </div>
+      </div>
+      <div class="feed-filters">
+        <input class="filt filt-search" id="searchBox" type="search" placeholder="Search name, intent, phone…" />
+        <select class="filt" id="priorityFilt">
+          <option value="all">All urgency</option>
+          <option value="hot">Hot</option>
+          <option value="warm">Warm</option>
+          <option value="normal">Normal</option>
+          <option value="cold">Cold</option>
+        </select>
+        <select class="filt" id="statusFilt">
+          <option value="all">All status</option>
+          <option value="in_progress">Active</option>
+          <option value="completed">Completed</option>
+          <option value="new">Pending review</option>
+        </select>
+      </div>
+      <div id="feedNotice" class="notice">Connecting to live records…</div>
+      <div class="call-list" id="callList"></div>
+    </section>
+
+    <p class="footer-note">FlowDesk Pro · Contact Center Dashboard · Records from Aria AI agent via Supabase</p>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+'use strict';
+
+const SUPABASE_URL = 'https://pwvstaigtdrccirdvqka.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_G9lyTPfKKJkxoRrW0stQyw_D-9jGovA';
+const POLL_MS = 10000;
+const NEW_WINDOW_MS = 120000;
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const state = { records: [], lastPollAt: null, newIds: new Set(), loading: false, error: '' };
+
+function byId(id) { return document.getElementById(id); }
+function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
+function fmt(v) {
+  if (!v) return '—';
+  const d = new Date(v);
+  return isNaN(d) ? String(v) : d.toLocaleString([], { month:'short', day:'2-digit', hour:'numeric', minute:'2-digit' });
+}
+function ago(v) {
+  if (!v) return '';
+  const s = Math.floor((Date.now() - new Date(v)) / 1000);
+  if (s < 60) return `${s}s ago`;
+  if (s < 3600) return `${Math.floor(s/60)}m ago`;
+  if (s < 86400) return `${Math.floor(s/3600)}h ago`;
+  return fmt(v);
+}
+function callerLabel(r) {
+  return r.display_name || r.contact_name || (r.phone_last4 ? `Caller ***${r.phone_last4}` : 'Unknown Caller');
+}
+function intentLabel(r) {
+  return r.interest_area || r.intent_summary || r.last_intent_summary || 'Intent not yet captured';
+}
+
+// Business name from sessionStorage
+(function initBusinessTag() {
+  const name = sessionStorage.getItem('businessName');
+  if (name) {
+    const tag = byId('businessTag');
+    tag.textContent = name;
+    tag.style.display = 'inline-block';
+    document.title = `${name} — Contact Center Dashboard`;
+  }
+})();
+
+byId('refreshBtn').addEventListener('click', () => load(true));
+byId('searchBox').addEventListener('input', render);
+byId('priorityFilt').addEventListener('change', render);
+byId('statusFilt').addEventListener('change', render);
+
+load(true);
+setInterval(() => load(false), POLL_MS);
+
+async function load(manual) {
+  if (manual) {
+    state.loading = true;
+    state.error = '';
+    byId('refreshBtn').disabled = true;
+    setNotice('Connecting to live records…', '');
+    render();
+  }
+  try {
+    const { data, error } = await db
+      .from('flowdesk_dashboard_leads')
+      .select('id,caller_id,session_id,display_name,phone_last4,call_count,contact_name,interest_area,intent_summary,last_intent_summary,priority,lead_status,source,created_at,updated_at,session_status,outcome')
+      .order('created_at', { ascending: false })
+      .limit(200);
+
+    if (error) throw new Error(error.message);
+
+    const prevIds = new Set(state.records.map(r => r.id));
+    state.records = data || [];
+
+    // Mark records that just appeared
+    const now = Date.now();
+    for (const r of state.records) {
+      if (!prevIds.has(r.id) && (now - new Date(r.created_at)) < NEW_WINDOW_MS) {
+        state.newIds.add(r.id);
+      }
+    }
+    // Expire new markers after window
+    for (const id of state.newIds) {
+      const r = state.records.find(x => x.id === id);
+      if (!r || (now - new Date(r.created_at)) >= NEW_WINDOW_MS) state.newIds.delete(id);
+    }
+
+    state.lastPollAt = new Date();
+    if (manual) setNotice(state.records.length ? `${state.records.length} records loaded.` : 'No call records yet.', state.records.length ? 'ok' : '');
+  } catch (err) {
+    state.error = err.message;
+    if (manual) setNotice(err.message, 'err');
+  } finally {
+    state.loading = false;
+    byId('refreshBtn').disabled = false;
+    render();
+  }
+}
+
+function setNotice(msg, type) {
+  byId('feedNotice').textContent = msg;
+  byId('feedNotice').className = `notice ${type}`.trim();
+}
+
+function filtered() {
+  const q = (byId('searchBox').value || '').trim().toLowerCase();
+  const pri = byId('priorityFilt').value;
+  const st = byId('statusFilt').value;
+  return state.records
+    .filter(r => pri === 'all' || r.priority === pri)
+    .filter(r => {
+      if (st === 'all') return true;
+      if (st === 'in_progress') return r.session_status === 'in_progress';
+      if (st === 'completed') return r.session_status === 'completed';
+      if (st === 'new') return r.lead_status === 'new';
+      return true;
+    })
+    .filter(r => !q || [callerLabel(r), intentLabel(r), r.phone_last4, r.source].join(' ').toLowerCase().includes(q));
+}
+
+function render() {
+  // Metrics
+  const all = state.records;
+  byId('mTotal').textContent = all.length || '0';
+  byId('mActive').textContent = all.filter(r => r.session_status === 'in_progress').length;
+  byId('mHot').textContent = all.filter(r => r.priority === 'hot').length;
+  byId('mPending').textContent = all.filter(r => r.lead_status === 'new').length;
+
+  // Subtitle
+  byId('feedSubtitle').textContent = state.loading
+    ? 'Loading…'
+    : state.lastPollAt
+      ? `${filtered().length} visible · ${all.length} total · refreshes every 10s`
+      : 'Not connected';
+
+  if (state.lastPollAt) {
+    byId('lastUpdated').textContent = `Updated ${ago(state.lastPollAt)}`;
+  }
+
+  // List
+  const list = byId('callList');
+  if (state.loading && !all.length) { list.innerHTML = '<div class="empty">Loading live records…</div>'; return; }
+  if (state.error && !all.length) { list.innerHTML = `<div class="empty">Could not load: ${esc(state.error)}</div>`; return; }
+
+  const rows = filtered();
+  if (!rows.length) { list.innerHTML = '<div class="empty">No records match the current filters.</div>'; return; }
+
+  list.innerHTML = rows.map(r => {
+    const isNew = state.newIds.has(r.id);
+    const isActive = r.session_status === 'in_progress';
+    const classes = ['call-card', isNew ? 'is-new' : '', isActive ? 'is-active' : ''].filter(Boolean).join(' ');
+    const name = esc(callerLabel(r));
+    const intent = esc(intentLabel(r));
+    const ts = ago(r.created_at);
+    const ph = r.phone_last4 ? `***${esc(r.phone_last4)}` : '';
+    const callsLabel = r.call_count > 1 ? ` · ${r.call_count} calls` : '';
+
+    return `<article class="${classes}">
+      <div class="card-top">
+        <div>
+          <div class="card-name">${name}${isNew ? ' <span class="badge b-new-tag">NEW</span>' : ''}</div>
+          <div class="card-intent">${intent}</div>
+        </div>
+        ${priorityBadge(r.priority)}
+      </div>
+      <div class="chip-row">${statusBadge(r)}${sourceBadge(r.source)}</div>
+      <div class="card-meta">${ph}${ph && (ts || callsLabel) ? ' · ' : ''}${ts}${callsLabel}</div>
+    </article>`;
+  }).join('');
+}
+
+function priorityBadge(p) {
+  const map = { hot:['b-hot','HOT'], warm:['b-warm','WARM'], normal:['b-normal','NORMAL'], cold:['b-cold','COLD'] };
+  const [cls, label] = map[p] || ['b-cold', p || '—'];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+function statusBadge(r) {
+  if (r.session_status === 'in_progress') return '<span class="badge b-active">ACTIVE</span>';
+  if (r.session_status === 'completed') return '<span class="badge b-completed">COMPLETED</span>';
+  if (r.lead_status === 'new') return '<span class="badge b-pending">PENDING</span>';
+  return `<span class="badge b-pending">${esc(r.lead_status || r.session_status || '—')}</span>`;
+}
+function sourceBadge(src) {
+  if (!src || src === 'conversational_ai_agent') return '<span class="badge b-cold">ARIA</span>';
+  return `<span class="badge b-cold">${esc(src)}</span>`;
+}
+</script>
+</body>
+</html>
