@@ -147,6 +147,13 @@ footer{
             <input type="email" id="email" name="email" placeholder="jane@acmecorp.com" autocomplete="email" />
             <div class="field-error" id="err_email">Please enter a valid email address.</div>
           </div>
+          <div class="field">
+            <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:.85rem;color:var(--muted)">
+              <input type="checkbox" id="sms_consent" required style="margin-top:3px;flex-shrink:0">
+              <span>I agree to receive SMS notifications from FlowDesk Pro. Reply STOP to opt out at any time. Message and data rates may apply. See our <a href="/privacy.html" style="color:var(--cyan)">Privacy Policy</a> and <a href="/terms.html" style="color:var(--cyan)">Terms</a>.</span>
+            </label>
+            <div class="field-error" id="err_sms_consent">Please agree to the SMS terms to continue.</div>
+          </div>
           <button type="submit" class="submit-btn" id="submitBtn">Request My Demo →</button>
           <div class="form-general-error" id="generalError">Something went wrong. Please try again.</div>
         </form>
@@ -195,6 +202,7 @@ footer{
       if (!contactName) { showError('contact_name', 'err_contact_name'); valid = false; }
       if (!phone || phone.replace(/\D/g, '').length < 10) { showError('phone', 'err_phone'); valid = false; }
       if (!email || !email.includes('@') || !email.includes('.')) { showError('email', 'err_email'); valid = false; }
+      if (!document.getElementById('sms_consent').checked) { showError('sms_consent', 'err_sms_consent'); valid = false; }
 
       return valid;
     }
@@ -212,6 +220,7 @@ footer{
         contact_name: document.getElementById('contact_name').value.trim(),
         phone: document.getElementById('phone').value.trim(),
         email: document.getElementById('email').value.trim(),
+        sms_consent: document.getElementById('sms_consent').checked,
       };
 
       try {
