@@ -1,6 +1,7 @@
 [build]
   publish = "."
   functions = "netlify/functions"
+  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL"
 
 [build.environment]
   NODE_VERSION = "22"
