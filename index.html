@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlowDesk Pro — Conversational Auto-Attendant</title>
+  <meta name="description" content="The world's first AI receptionist that holds a real conversation with every caller — understanding intent, qualifying leads, and routing intelligently. No keypresses. No menus. Just natural conversation." />
+  <link rel="canonical" href="https://aiflowdeskpro.com/conversational-auto-attendant" />
+  <meta name="theme-color" content="#020407" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+:root{
+  --black:#020407;
+  --deep:#06101f;
+  --surface:#0A1424;
+  --panel:#0D1B30;
+  --panel-2:#101F36;
+  --line:rgba(116,184,255,.18);
+  --line-strong:rgba(115,230,255,.40);
+  --blue:#4A7FFF;
+  --blue-2:#1EA7FF;
+  --cyan:#73E6FF;
+  --green:#55E6A5;
+  --gold:#E6C26B;
+  --red:#FF6B7A;
+  --text:#F4F8FF;
+  --muted:#A8B8D0;
+  --soft:#6E819B;
+  --shadow:0 28px 90px rgba(0,0,0,.45);
+  --radius:20px;
+  --radius-lg:30px;
+  font-family:'DM Sans', system-ui, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(115,230,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(115,230,255,.025) 1px,transparent 1px),
+    radial-gradient(circle at 14% 0%,rgba(74,127,255,.24),transparent 34rem),
+    radial-gradient(circle at 84% 18%,rgba(115,230,255,.12),transparent 34rem),
+    linear-gradient(180deg,#020407 0%,#06101f 52%,#081626 100%);
+  background-size:72px 72px,72px 72px,auto,auto,auto;
+  color:var(--text);
+  font-size:16px;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  z-index:0;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.shell{position:relative;z-index:1;min-height:100vh}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:16px clamp(18px,4vw,52px);
+  background:rgba(2,4,7,.82);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(22px);
+}
+.brand{display:flex;align-items:center;gap:13px;text-decoration:none;min-width:240px}
+.brand-mark{
+  width:50px;height:50px;border-radius:14px;
+  border:1px solid rgba(115,230,255,.26);
+  background:rgba(6,16,31,.82);
+  display:grid;place-items:center;
+  box-shadow:0 0 34px rgba(74,127,255,.28);
+  overflow:hidden;
+}
+.brand-mark img{width:92%;height:92%;object-fit:contain;filter:drop-shadow(0 0 18px rgba(115,230,255,.52))}
+.brand-name{font-family:'DM Serif Display',serif;font-size:1.18rem;color:var(--text);line-height:1.1}
+.brand-name span{display:block;font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-links a{font-weight:700;font-size:.88rem;color:var(--muted);padding:8px 14px;border-radius:999px;transition:.18s}
+.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.055)}
+.nav-cta{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.08em;
+  text-transform:uppercase;font-weight:900;color:#020407;
+  background:linear-gradient(135deg,#f7fbff,var(--cyan) 48%,var(--blue));
+  padding:10px 20px;border-radius:999px;
+  box-shadow:0 0 28px rgba(74,127,255,.38);
+  transition:.18s;white-space:nowrap;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 44px rgba(74,127,255,.52)}
+
+/* HERO */
+.hero{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);
+  gap:clamp(2rem,5vw,5rem);
+  align-items:center;
+  padding:clamp(3.5rem,8vw,6rem) clamp(18px,5vw,74px);
+  min-height:calc(100vh - 78px);
+  border-bottom:1px solid var(--line);
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:900;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--green);background:rgba(85,230,165,.08);
+  border:1px solid rgba(85,230,165,.22);
+  padding:6px 14px;border-radius:999px;margin-bottom:1.4rem;
+}
+.eyebrow::before{
+  content:'';width:7px;height:7px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 12px var(--green);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(3rem,6.5vw,6.2rem);
+  font-weight:400;line-height:.94;
+  letter-spacing:-.035em;color:var(--text);
+  margin-bottom:1.4rem;
+}
+h1 em{font-style:italic;color:var(--cyan)}
+.hero-copy{
+  font-size:clamp(1rem,1.4vw,1.2rem);
+  color:var(--muted);max-width:760px;
+  line-height:1.82;margin-bottom:2rem;
+}
+.hero-bullets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2rem}
+.bullet{
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;
+  font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--cyan);background:rgba(115,230,255,.07);
+  border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:2.4rem}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  border-radius:999px;font-weight:900;
+  padding:14px 26px;transition:.18s ease;font-size:.95rem;
+  cursor:pointer;border:none;
+}
+.btn.primary{
+  color:#020407;
+  background:linear-gradient(135deg,#f7fbff,var(--cyan) 45%,var(--blue));
+  box-shadow:0 0 36px rgba(74,127,255,.32);
+}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 0 52px rgba(74,127,255,.48)}
+.btn.secondary{
+  color:var(--text);background:rgba(255,255,255,.045);
+  border:1px solid var(--line-strong);
+}
+.btn.secondary:hover{background:rgba(255,255,255,.075);border-color:var(--cyan)}
+.metric-strip{
+  display:flex;gap:clamp(12px,3vw,32px);flex-wrap:wrap;
+  padding-top:1.6rem;border-top:1px solid var(--line);
+}
+.metric strong{display:block;font-family:'DM Serif Display',serif;font-size:1.9rem;line-height:1;color:var(--text)}
+.metric span{display:block;margin-top:6px;color:var(--soft);font-size:.68rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+
+/* HERO CARD — Conversation Preview */
+.hero-card{
+  position:relative;
+  border:1px solid var(--line-strong);border-radius:var(--radius-lg);
+  background:linear-gradient(145deg,rgba(13,27,48,.96),rgba(6,16,31,.9));
+  padding:clamp(20px,3vw,32px);
+  box-shadow:var(--shadow),0 0 80px rgba(74,127,255,.12);
+  overflow:hidden;
+}
+.hero-card::before{
+  content:'';position:absolute;inset:-2px;
+  background:linear-gradient(130deg,rgba(115,230,255,.2),transparent 40%,rgba(74,127,255,.16));
+  z-index:-1;border-radius:calc(var(--radius-lg) + 2px);
+}
+.card-header{
+  display:flex;align-items:center;gap:10px;
+  padding-bottom:14px;border-bottom:1px solid var(--line);
+  margin-bottom:16px;
+}
+.card-dots{display:flex;gap:6px}
+.dot{width:11px;height:11px;border-radius:50%}
+.dot.red{background:#FF6B7A}
+.dot.yellow{background:#E6C26B}
+.dot.green{background:#55E6A5}
+.card-title{
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;
+  font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--cyan);margin-left:4px;
+}
+.conversation{display:flex;flex-direction:column;gap:12px}
+.msg{display:flex;flex-direction:column;gap:4px;max-width:90%}
+.msg.aria{align-self:flex-start}
+.msg.caller{align-self:flex-end}
+.msg-label{
+  font-family:'JetBrains Mono',monospace;font-size:.56rem;
+  font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--soft);
+}
+.msg.aria .msg-label{color:var(--cyan)}
+.msg.caller .msg-label{color:var(--gold);text-align:right}
+.bubble{
+  padding:10px 14px;border-radius:16px;
+  font-size:.88rem;line-height:1.55;
+}
+.msg.aria .bubble{
+  background:rgba(115,230,255,.08);
+  border:1px solid rgba(115,230,255,.18);
+  color:var(--text);border-top-left-radius:4px;
+}
+.msg.caller .bubble{
+  background:rgba(74,127,255,.12);
+  border:1px solid rgba(74,127,255,.22);
+  color:var(--text);border-top-right-radius:4px;text-align:right;
+}
+.typing{
+  display:flex;align-items:center;gap:4px;
+  padding:10px 14px;border-radius:16px;
+  background:rgba(115,230,255,.06);
+  border:1px solid rgba(115,230,255,.14);
+  border-top-left-radius:4px;width:fit-content;
+  animation:fadeIn .5s ease 2.4s both;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.typing-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);opacity:.4;
+  animation:typingBounce 1.4s ease-in-out infinite;
+}
+.typing-dot:nth-child(2){animation-delay:.2s}
+.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes typingBounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-6px);opacity:1}}
+.card-footer{
+  margin-top:16px;padding-top:14px;
+  border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.status-badge{
+  display:flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--green);
+}
+.status-badge::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 8px var(--green);
+  animation:pulse 2s ease-in-out infinite;
+}
+.call-timer{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;
+  color:var(--soft);letter-spacing:.08em;
+}
+
+/* SECTIONS */
+.section{padding:clamp(64px,8vw,104px) clamp(18px,5vw,74px);border-top:1px solid var(--line)}
+.container{max-width:1180px;margin:0 auto}
+.section-head{max-width:780px;margin-bottom:2.6rem}
+.kicker{
+  font-family:'JetBrains Mono',monospace;font-size:.64rem;
+  font-weight:900;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:.85rem;display:block;
+}
+.section h2{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2rem,4vw,4rem);
+  font-weight:400;line-height:1.04;
+  color:var(--text);margin-bottom:1rem;
+}
+.section h2 em{font-style:italic;color:var(--cyan)}
+.section-desc{color:var(--muted);font-size:1.02rem;line-height:1.88;max-width:760px}
+
+/* FEATURE GRID */
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.feat-card{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:rgba(10,20,36,.82);padding:28px;
+  box-shadow:0 18px 56px rgba(0,0,0,.24);
+  transition:.22s ease;position:relative;overflow:hidden;
+}
+.feat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  opacity:0;transition:.22s;
+}
+.feat-card:hover{border-color:rgba(115,230,255,.28);transform:translateY(-4px)}
+.feat-card:hover::before{opacity:1}
+.feat-icon{
+  width:48px;height:48px;border-radius:14px;
+  background:rgba(115,230,255,.08);border:1px solid rgba(115,230,255,.18);
+  display:grid;place-items:center;margin-bottom:18px;
+}
+.feat-icon svg{width:22px;height:22px;stroke:var(--cyan);fill:none;stroke-width:1.5}
+.feat-card h3{font-family:'DM Serif Display',serif;font-size:1.45rem;font-weight:400;color:var(--text);margin-bottom:8px}
+.feat-card p{color:var(--muted);font-size:.92rem;line-height:1.72}
+
+/* PIPELINE */
+.pipeline{
+  display:grid;gap:1px;
+  border:1px solid var(--line);border-radius:var(--radius-lg);
+  overflow:hidden;background:var(--line);
+}
+.step{
+  display:grid;grid-template-columns:58px 1fr auto;
+  align-items:center;gap:16px;
+  padding:20px 24px;background:rgba(5,12,26,.9);
+  transition:.18s;
+}
+.step:hover{background:rgba(10,20,42,.95)}
+.step-num{
+  display:grid;place-items:center;
+  width:50px;height:50px;border-radius:999px;
+  background:linear-gradient(135deg,var(--cyan),var(--blue));
+  color:#020407;font-family:'JetBrains Mono',monospace;font-weight:900;font-size:.78rem;
+}
+.step strong{display:block;color:var(--text);font-size:1rem;margin-bottom:3px}
+.step span{display:block;color:var(--muted);font-size:.88rem;line-height:1.5}
+.step-tag{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  color:var(--green);letter-spacing:.1em;font-weight:900;
+  text-align:right;white-space:nowrap;
+}
+
+/* COMPARE */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:2rem}
+.compare-card{border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.compare-card.old{background:rgba(255,107,122,.04);border-color:rgba(255,107,122,.18)}
+.compare-card.new{background:rgba(85,230,165,.04);border-color:rgba(85,230,165,.22)}
+.compare-label{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  font-weight:900;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:16px;display:block;
+}
+.compare-card.old .compare-label{color:var(--red)}
+.compare-card.new .compare-label{color:var(--green)}
+.compare-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.compare-list li{
+  display:flex;align-items:flex-start;gap:10px;
+  color:var(--muted);font-size:.92rem;line-height:1.5;
+}
+.compare-list li::before{
+  content:'';flex:0 0 18px;height:18px;border-radius:50%;
+  display:grid;place-items:center;margin-top:2px;font-size:.65rem;font-weight:900;
+}
+.compare-card.old .compare-list li::before{
+  content:'✕';background:rgba(255,107,122,.12);
+  border:1px solid rgba(255,107,122,.24);color:var(--red);
+}
+.compare-card.new .compare-list li::before{
+  content:'✓';background:rgba(85,230,165,.1);
+  border:1px solid rgba(85,230,165,.24);color:var(--green);
+}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:2rem}
+.stat-card{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:rgba(10,20,36,.82);padding:24px;text-align:center;
+}
+.stat-number{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2.4rem,4vw,3.8rem);
+  font-weight:400;line-height:1;
+  background:linear-gradient(135deg,var(--cyan),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:8px;
+}
+.stat-label{font-size:.82rem;color:var(--muted);font-weight:600;line-height:1.4}
+
+/* CTA */
+.cta-section{padding:clamp(4rem,8vw,7rem) clamp(18px,5vw,74px);text-align:center}
+.cta-panel{
+  max-width:980px;margin:0 auto;
+  border:1px solid var(--line-strong);border-radius:34px;
+  background:linear-gradient(145deg,rgba(12,25,52,.95),rgba(8,18,38,.82));
+  padding:clamp(2rem,5vw,4rem);box-shadow:var(--shadow);
+}
+.cta-panel h2{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2.2rem,5vw,4.4rem);
+  font-weight:400;line-height:1;color:var(--text);margin-bottom:1rem;
+}
+.cta-panel h2 em{font-style:italic;color:var(--cyan)}
+.cta-panel p{max-width:680px;margin:0 auto 2rem;color:var(--muted);font-size:1.05rem;line-height:1.8}
+.cta-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+/* FOOTER */
+footer{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1.2rem;flex-wrap:wrap;
+  padding:2rem clamp(18px,5vw,74px);
+  border-top:1px solid var(--line);
+  color:var(--soft);font-size:.84rem;
+}
+.footer-links{display:flex;gap:1rem;flex-wrap:wrap}
+.footer-links a{color:var(--cyan);font-weight:700;transition:.18s}
+.footer-links a:hover{color:var(--text)}
+
+/* RESPONSIVE */
+@media(max-width:1020px){
+  .hero{grid-template-columns:1fr}
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .compare{grid-template-columns:1fr}
+}
+@media(max-width:720px){
+  .nav-links{display:none}
+  .grid-3{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .step{grid-template-columns:44px 1fr}
+  .step-tag{grid-column:2;text-align:left}
+  h1{font-size:clamp(2.6rem,14vw,4rem)}
+}
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a class="brand" href="https://aiflowdeskpro.com">
+      <div class="brand-mark">
+        <img src="AI4-FLOWDESK-PRO-LOGO.png" alt="FlowDesk Pro" />
+      </div>
+      <div class="brand-name">
+        FlowDesk Pro
+        <span>Conversational AI</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="https://lead-management.aiflowdeskpro.com">Lead Manager</a>
+      <a href="https://auto-attendant.aiflowdeskpro.com">Auto-Attendant</a>
+      <a href="https://ai4businesses.org">AI4 Businesses</a>
+    </nav>
+    <a class="nav-cta" href="/demo-request.html">Experience Aria →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Conversational AI · Now Available</div>
+      <h1>Your callers deserve a <em>real conversation.</em></h1>
+      <p class="hero-copy">
+        Introducing the FlowDesk Pro Conversational Auto-Attendant — the first AI receptionist that listens, understands, and responds naturally to every caller. No keypresses. No rigid menus. No recordings. Just Aria, your 24/7 AI receptionist, holding a genuine conversation with every person who calls your business.
+      </p>
+      <div class="hero-bullets">
+        <span class="bullet">Natural Language AI</span>
+        <span class="bullet">24/7 Availability</span>
+        <span class="bullet">Intelligent Routing</span>
+        <span class="bullet">Live Dashboard</span>
+        <span class="bullet">Instant Alerts</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn primary" href="/demo-request.html">Experience Aria Live →</a>
+        <a class="btn secondary" href="#how-it-works">See How It Works</a>
+      </div>
+      <div class="metric-strip">
+        <div class="metric"><strong>&lt;2s</strong><span>Answer Time</span></div>
+        <div class="metric"><strong>24/7</strong><span>Always On</span></div>
+        <div class="metric"><strong>100%</strong><span>Calls Captured</span></div>
+        <div class="metric"><strong>0</strong><span>Missed Leads</span></div>
+      </div>
+    </div>
+
+    <!-- Live Conversation Preview -->
+    <aside class="hero-card">
+      <div class="card-header">
+        <div class="card-dots">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+        </div>
+        <span class="card-title">// Live Call — Aria Active</span>
+      </div>
+      <div class="conversation">
+        <div class="msg aria">
+          <span class="msg-label">Aria — AI Receptionist</span>
+          <div class="bubble">"Thank you for calling Mitchell Law Group. I'm Aria. How can I help you today?"</div>
+        </div>
+        <div class="msg caller">
+          <span class="msg-label">Caller</span>
+          <div class="bubble">"Hi, I need to speak with someone about a personal injury case. It's urgent."</div>
+        </div>
+        <div class="msg aria">
+          <span class="msg-label">Aria — AI Receptionist</span>
+          <div class="bubble">"I understand — personal injury cases can't wait. May I get your name so I can make sure the right attorney reaches you right away?"</div>
+        </div>
+        <div class="msg caller">
+          <span class="msg-label">Caller</span>
+          <div class="bubble">"Sure, it's Marcus Thompson."</div>
+        </div>
+        <div class="typing">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="status-badge">Aria Active</div>
+        <div class="call-timer">00:00:34</div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- WHY CONVERSATIONAL -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">// The Problem With Traditional Systems</span>
+        <h2>Press 1 for sales. Press 2 for <em>losing the customer.</em></h2>
+        <p class="section-desc">Traditional auto-attendants were built for a world that no longer exists. Today's callers expect to be heard — not managed. Every keypress menu is a moment where a frustrated prospect hangs up and calls your competitor.</p>
+      </div>
+      <div class="compare">
+        <div class="compare-card old">
+          <span class="compare-label">❌ Old Way — IVR Menus</span>
+          <ul class="compare-list">
+            <li>Press 1 for sales, 2 for support, 3 for billing...</li>
+            <li>Caller doesn't fit a menu option — hangs up</li>
+            <li>Robotic, impersonal, frustrating experience</li>
+            <li>No context captured — just a routing decision</li>
+            <li>After hours — voicemail black hole</li>
+            <li>High abandon rates on complex needs</li>
+          </ul>
+        </div>
+        <div class="compare-card new">
+          <span class="compare-label">✓ New Way — Aria Conversational AI</span>
+          <ul class="compare-list">
+            <li>"Just tell me how I can help" — natural conversation</li>
+            <li>Understands any need, any phrasing, any language</li>
+            <li>Warm, professional, human-like experience every time</li>
+            <li>Full context captured — name, intent, urgency, notes</li>
+            <li>24/7 — Aria never sleeps, never misses a call</li>
+            <li>Every caller feels heard, helped, and valued</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">// What Aria Does For Your Business</span>
+        <h2>Every call. Handled <em>perfectly.</em></h2>
+        <p class="section-desc">Aria isn't just an answering service — she's a fully trained AI receptionist who represents your brand with professionalism, captures every lead, and ensures no caller ever feels ignored.</p>
+      </div>
+      <div class="grid-3">
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+          </div>
+          <h3>Natural Conversation</h3>
+          <p>Aria listens to every caller and responds in natural, warm, professional language. No scripts. No keypresses. Just a genuine conversation that makes every caller feel valued.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+          </div>
+          <h3>AI-Powered Understanding</h3>
+          <p>Powered by Claude AI, Aria understands caller intent, urgency, and context — even when it's complex. She routes intelligently and captures everything your team needs to follow up effectively.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>Intelligent Routing</h3>
+          <p>Aria routes calls by understanding what the caller actually needs — not which button they pressed. Sales calls go to sales. Urgent matters get priority. Every caller reaches the right person.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 17.5"/></svg>
+          </div>
+          <h3>After-Hours Coverage</h3>
+          <p>Aria works around the clock — nights, weekends, holidays. Your business never misses another call. Every after-hours caller gets the same premium experience as a caller during business hours.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <h3>Full Transcript & Record</h3>
+          <p>Every conversation is transcribed, analyzed, and structured into a complete lead record — caller name, intent, urgency score, and recommended next action — delivered to your dashboard instantly.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <h3>Instant Alerts</h3>
+          <p>The moment Aria wraps up a call, your team receives an SMS and email alert with the full lead summary. High-urgency callers trigger immediate priority alerts so you respond first — every time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">// The Conversation Flow</span>
+        <h2>From first ring to <em>structured lead.</em></h2>
+        <p class="section-desc">Every call follows Aria's intelligent conversation framework — designed to capture maximum information while delivering a premium caller experience in under 90 seconds.</p>
+      </div>
+      <div class="pipeline">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div>
+            <strong>Call Received — Aria Answers in Under 2 Seconds</strong>
+            <span>"Thank you for calling [Business Name]. I'm Aria. How can I help you today?"</span>
+          </div>
+          <div class="step-tag">INSTANT</div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div>
+            <strong>Aria Listens and Understands</strong>
+            <span>Claude AI processes the caller's words — understanding intent, urgency, and emotional context in real time.</span>
+          </div>
+          <div class="step-tag">AI BRAIN</div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div>
+            <strong>Natural Follow-Up Questions</strong>
+            <span>Aria asks targeted questions to qualify the caller — name, need, urgency, preferred callback time.</span>
+          </div>
+          <div class="step-tag">QUALIFY</div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div>
+            <strong>Route or Resolve</strong>
+            <span>Aria connects urgent callers to a live person or wraps up with a professional confirmation and promise to follow up.</span>
+          </div>
+          <div class="step-tag">ROUTE</div>
+        </div>
+        <div class="step">
+          <div class="step-num">05</div>
+          <div>
+            <strong>Lead Record Created — Alert Fires</strong>
+            <span>Full transcript, urgency score, and recommended action delivered to your dashboard. SMS + email alert sent instantly.</span>
+          </div>
+          <div class="step-tag">CAPTURED</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">// The Business Impact</span>
+        <h2>Numbers that change <em>everything.</em></h2>
+        <p class="section-desc">Missed calls aren't just an inconvenience — they're a revenue leak. FlowDesk Pro Conversational Auto-Attendant seals that leak permanently.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">80%</div>
+          <div class="stat-label">of callers who reach voicemail never call back</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">$26K</div>
+          <div class="stat-label">in lost revenue annually from 5 missed calls per week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">&lt;2s</div>
+          <div class="stat-label">Aria answers every call — before the second ring</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">of callers receive a professional, personal experience</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-panel">
+      <h2>Hear Aria answer your <em>business name.</em></h2>
+      <p>Fill out the demo form, call the number, and experience what your callers will hear. Watch your conversation appear on your dashboard in real time. That's the moment everything changes.</p>
+      <div class="cta-actions">
+        <a class="btn primary" href="/demo-request.html">Experience Aria Live →</a>
+        <a class="btn secondary" href="https://ai4businesses.org">← AI4 Businesses</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Apropos Group LLC · FlowDesk Pro · Las Vegas, NV</span>
+    <div class="footer-links">
+      <a href="https://lead-management.aiflowdeskpro.com">Lead Manager</a>
+      <a href="https://auto-attendant.aiflowdeskpro.com">Auto-Attendant</a>
+      <a href="https://aiflowdeskpro.com">AI Voice Attendant</a>
+      <a href="https://intake-engine.aiflowdeskpro.com">Intake Engine</a>
+      <a href="https://ai4businesses.org">AI4 Businesses</a>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
