@@ -24,7 +24,7 @@ function ariaTwiml(message, gatherAction, timeoutUrl) {
 <Response>
   <Say voice="Polly.Joanna-Neural">${escapeXml(message)}</Say>
   <Gather input="speech" action="${escapeXml(gatherAction)}" method="POST"
-          speechTimeout="3" speechModel="phone_call" enhanced="true" language="en-US">
+          speechTimeout="2" speechModel="phone_call" enhanced="true" language="en-US">
   </Gather>
   <Redirect method="POST">${escapeXml(timeoutUrl)}</Redirect>
 </Response>`;
@@ -36,6 +36,7 @@ Your job is to greet callers, understand their need, collect their name, and ens
 RULES: Max 35 words per response. Warm and natural. Never say you are AI unless asked directly.
 If asked: "I'm Aria, a virtual assistant here to make sure you get the help you need."
 Guide the conversation: understand need → ask for name → confirm we will follow up → wrap up warmly.
+CRITICAL: Never ask for information the caller has already provided in this conversation. Check the full history before asking any question.
 URGENCY: critical(emergency/urgent/right now/today), high(this week/soon/important), medium(no rush/sometime), low(just browsing/general info)
 When you have collected the caller's name and understood their intent, output ONLY a raw JSON object (no markdown, no prose):
 {"caller_name":"...","intent":"...","urgency":"low|medium|high|critical","callback_number":"caller_phone","summary":"...","next_action":"..."}`;
@@ -185,19 +186,25 @@ exports.handler = async (event) => {
   // Load conversation history
   let historyRecord = null;
   try {
-    const { data } = await supabase
+    const { data, error: loadErr } = await supabase
       .from('conversation_history')
       .select('caller_id, session_id, history, turn_count')
       .eq('call_sid', callSid)
       .maybeSingle();
-    historyRecord = data;
+    if (loadErr) {
+      console.error('HISTORY LOAD DB ERROR:', loadErr.message, loadErr.code);
+    } else {
+      historyRecord = data;
+    }
   } catch (e) {
-    console.error('HISTORY LOAD ERROR:', e.message);
+    console.error('HISTORY LOAD EXCEPTION:', e.message);
   }
 
   const callerId = historyRecord ? historyRecord.caller_id : null;
   const sessionId = historyRecord ? historyRecord.session_id : null;
   const prevHistory = (historyRecord && Array.isArray(historyRecord.history)) ? historyRecord.history : [];
+
+  console.log(`ARIA turn=${turn} call_sid=${callSid} history_turns=${prevHistory.length} record_found=${!!historyRecord}`);
 
   // Append user turn
   const historyWithUser = [...prevHistory, { role: 'user', content: speech }];
@@ -316,12 +323,17 @@ exports.handler = async (event) => {
   const newTurn = turn + 1;
 
   try {
-    await supabase
+    const { error: saveErr } = await supabase
       .from('conversation_history')
       .update({ history: fullHistory, turn_count: newTurn })
       .eq('call_sid', callSid);
+    if (saveErr) {
+      console.error('HISTORY SAVE DB ERROR:', saveErr.message, saveErr.code);
+    } else {
+      console.log(`ARIA history saved turn=${newTurn} messages=${fullHistory.length}`);
+    }
   } catch (e) {
-    console.error('HISTORY UPDATE ERROR:', e.message);
+    console.error('HISTORY SAVE EXCEPTION:', e.message);
   }
 
   const gatherAction = buildAbsoluteFunctionUrl(event, 'flowdesk-twilio-gather', { turn: newTurn, call_sid: callSid });
