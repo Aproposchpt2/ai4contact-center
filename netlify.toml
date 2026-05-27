@@ -1,0 +1,30 @@
+functionsDirectory = "C:\\Users\\Jeff\\apropos-command-layer\\flowdesk-ruflo-sandbox\\netlify\\functions"
+functionsDirectoryOrigin = "config"
+plugins = []
+headers = []
+redirects = []
+
+[build]
+publish = "C:\\Users\\Jeff\\apropos-command-layer\\flowdesk-ruflo-sandbox"
+publishOrigin = "default"
+functions = "C:\\Users\\Jeff\\apropos-command-layer\\flowdesk-ruflo-sandbox\\netlify\\functions"
+
+  [build.environment]
+  NODE_VERSION = "22"
+
+  [build.processing]
+
+    [build.processing.css]
+
+    [build.processing.html]
+
+    [build.processing.images]
+
+    [build.processing.js]
+
+  [build.services]
+
+[functions]
+
+  [functions."*"]
+  node_bundler = "esbuild"

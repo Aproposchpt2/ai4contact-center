@@ -1,0 +1,16 @@
+{
+  "name": "flowdesk-conversational-agent",
+  "version": "1.0.0",
+  "description": "FlowDesk Pro Conversational AI Agent - Netlify Functions backend",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "test": "echo \"No automated tests configured for Phase 1A\""
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.8",
+    "ws": "^8.18.2"
+  }
+}
