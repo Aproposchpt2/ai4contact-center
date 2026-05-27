@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlowDesk Pro Contact Center — Launch Demo</title>
+  <meta name="theme-color" content="#020407" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+:root{
+  --black:#020407;--cyan:#73E6FF;--blue:#4A7FFF;--green:#55E6A5;--red:#FF6B7A;
+  --text:#F4F8FF;--muted:#A8B8D0;--soft:#6E819B;
+  --line:rgba(116,184,255,.18);--line-strong:rgba(115,230,255,.40);
+  --surface:#0A1424;--panel:#0D1B30;--shadow:0 28px 90px rgba(0,0,0,.45);--radius:20px;
+  font-family:'DM Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 18% 10%,rgba(74,127,255,.22),transparent 36rem),
+    radial-gradient(circle at 82% 80%,rgba(115,230,255,.10),transparent 30rem),
+    linear-gradient(180deg,#020407 0%,#06101f 60%,#020407 100%);
+  color:var(--text);font-size:16px;line-height:1.7;overflow-x:hidden;
+  display:flex;flex-direction:column;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* NAV */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:16px clamp(18px,4vw,52px);
+  border-bottom:1px solid var(--line);background:rgba(2,4,7,.82);backdrop-filter:blur(22px);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:44px;height:44px;border-radius:12px;border:1px solid rgba(115,230,255,.26);background:rgba(6,16,31,.82);display:grid;place-items:center;overflow:hidden;box-shadow:0 0 28px rgba(74,127,255,.22)}
+.brand-mark img{width:90%;height:90%;object-fit:contain;filter:drop-shadow(0 0 14px rgba(115,230,255,.48))}
+.brand-name{font-family:'DM Serif Display',serif;font-size:1.08rem;color:var(--text);line-height:1.1}
+.brand-name span{display:block;font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-top:2px}
+.nav-back{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);transition:.18s}
+.nav-back:hover{color:var(--cyan)}
+
+/* MAIN */
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:clamp(2rem,6vw,5rem) clamp(18px,5vw,48px)}
+.form-wrap{width:100%;max-width:560px}
+.form-kicker{
+  font-family:'JetBrains Mono',monospace;font-size:.64rem;font-weight:900;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);
+  display:flex;align-items:center;gap:8px;margin-bottom:1.2rem;
+}
+.form-kicker::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.form-heading{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:400;line-height:1;color:var(--text);margin-bottom:.8rem}
+.form-heading em{font-style:italic;color:var(--cyan)}
+.form-subhead{color:var(--muted);font-size:1rem;line-height:1.75;margin-bottom:2.4rem;max-width:480px}
+
+/* FORM CARD */
+.form-card{
+  border:1px solid var(--line-strong);border-radius:24px;
+  background:linear-gradient(145deg,rgba(13,27,48,.96),rgba(6,16,31,.9));
+  padding:clamp(24px,4vw,40px);box-shadow:var(--shadow);
+}
+.field{margin-bottom:18px}
+label{display:block;font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:7px}
+input{
+  width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;
+  padding:13px 16px;color:var(--text);font-size:.96rem;font-family:inherit;
+  transition:.18s;outline:none;
+}
+input:focus{border-color:var(--cyan);background:rgba(115,230,255,.04);box-shadow:0 0 0 3px rgba(115,230,255,.10)}
+input::placeholder{color:var(--soft)}
+input.error{border-color:var(--red)}
+.field-error{font-size:.78rem;color:var(--red);margin-top:5px;display:none}
+.field-error.show{display:block}
+
+.submit-btn{
+  width:100%;padding:15px;border-radius:999px;border:none;cursor:pointer;
+  font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:900;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:#020407;background:linear-gradient(135deg,#f7fbff,var(--cyan) 45%,var(--blue));
+  box-shadow:0 0 36px rgba(74,127,255,.32);transition:.18s;margin-top:8px;
+}
+.submit-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 0 52px rgba(74,127,255,.48)}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+.form-note{font-size:.8rem;color:var(--soft);text-align:center;margin-top:14px;line-height:1.5}
+.form-note strong{color:var(--muted)}
+
+/* SUCCESS */
+.success-state{display:none;text-align:center;padding:2rem 0}
+.success-icon{width:64px;height:64px;border-radius:50%;background:rgba(85,230,165,.1);border:2px solid var(--green);display:grid;place-items:center;margin:0 auto 1.2rem}
+.success-icon svg{width:28px;height:28px;stroke:var(--green);fill:none;stroke-width:2}
+.success-state h3{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--text);margin-bottom:.5rem}
+.success-state p{color:var(--muted);margin-bottom:1.5rem}
+.success-redirect{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--cyan);letter-spacing:.08em}
+
+/* GENERAL ERROR */
+.form-general-error{display:none;background:rgba(255,107,122,.06);border:1px solid rgba(255,107,122,.22);border-radius:12px;padding:12px 16px;font-size:.88rem;color:var(--red);margin-top:12px;text-align:center}
+.form-general-error.show{display:block}
+
+footer{
+  text-align:center;padding:1.5rem;border-top:1px solid var(--line);
+  color:var(--soft);font-size:.8rem;
+}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a class="brand" href="/">
+      <div class="brand-mark"><img src="AI4-FLOWDESK-PRO-LOGO.png" alt="FlowDesk Pro" /></div>
+      <div class="brand-name">FlowDesk Pro <span>Contact Center</span></div>
+    </a>
+    <a class="nav-back" href="/">← Back to Overview</a>
+  </nav>
+
+  <main>
+    <div class="form-wrap">
+      <div class="form-kicker">Launch Live Demo</div>
+      <h1 class="form-heading">FlowDesk Pro <em>Contact Center</em></h1>
+      <p class="form-subhead">Fill out the form — we will build your custom contact center dashboard and walk you through a live demo experience.</p>
+
+      <div class="form-card">
+        <form id="demoForm" novalidate>
+          <div class="field">
+            <label for="business_name">Business Name</label>
+            <input type="text" id="business_name" name="business_name" placeholder="Acme Corp" autocomplete="organization" />
+            <div class="field-error" id="err_business_name">Please enter your business name.</div>
+          </div>
+          <div class="field">
+            <label for="contact_name">Your Name</label>
+            <input type="text" id="contact_name" name="contact_name" placeholder="Jane Smith" autocomplete="name" />
+            <div class="field-error" id="err_contact_name">Please enter your name.</div>
+          </div>
+          <div class="field">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+1 (702) 555-0100" autocomplete="tel" />
+            <div class="field-error" id="err_phone">Please enter a valid phone number.</div>
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="jane@acmecorp.com" autocomplete="email" />
+            <div class="field-error" id="err_email">Please enter a valid email address.</div>
+          </div>
+          <button type="submit" class="submit-btn" id="submitBtn">Request My Demo →</button>
+          <div class="form-general-error" id="generalError">Something went wrong. Please try again.</div>
+        </form>
+
+        <div class="success-state" id="successState">
+          <div class="success-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>You're on the list.</h3>
+          <p>Taking you to your dashboard now…</p>
+          <div class="success-redirect">Redirecting in 2 seconds</div>
+        </div>
+
+        <p class="form-note">Your information is never sold. <strong>We'll reach out to schedule your live walkthrough.</strong></p>
+      </div>
+    </div>
+  </main>
+
+  <footer>© 2026 Apropos Group LLC · FlowDesk Pro · Las Vegas, NV</footer>
+
+  <script>
+    const form = document.getElementById('demoForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successState = document.getElementById('successState');
+    const generalError = document.getElementById('generalError');
+
+    function clearErrors() {
+      document.querySelectorAll('.field-error').forEach(el => el.classList.remove('show'));
+      document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+      generalError.classList.remove('show');
+    }
+
+    function showError(fieldId, errId) {
+      document.getElementById(fieldId).classList.add('error');
+      document.getElementById(errId).classList.add('show');
+    }
+
+    function validate() {
+      let valid = true;
+      const businessName = document.getElementById('business_name').value.trim();
+      const contactName = document.getElementById('contact_name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      if (!businessName) { showError('business_name', 'err_business_name'); valid = false; }
+      if (!contactName) { showError('contact_name', 'err_contact_name'); valid = false; }
+      if (!phone || phone.replace(/\D/g, '').length < 10) { showError('phone', 'err_phone'); valid = false; }
+      if (!email || !email.includes('@') || !email.includes('.')) { showError('email', 'err_email'); valid = false; }
+
+      return valid;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+      if (!validate()) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting…';
+
+      const payload = {
+        business_name: document.getElementById('business_name').value.trim(),
+        contact_name: document.getElementById('contact_name').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        email: document.getElementById('email').value.trim(),
+      };
+
+      try {
+        const res = await fetch('/.netlify/functions/flowdesk-demo-submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) throw new Error('Server error ' + res.status);
+
+        sessionStorage.setItem('businessName', payload.business_name);
+        form.style.display = 'none';
+        successState.style.display = 'block';
+        setTimeout(() => { window.location.href = '/dashboard.html'; }, 2000);
+      } catch {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Request My Demo →';
+        generalError.classList.add('show');
+      }
+    });
+  </script>
+</body>
+</html>
