@@ -18,7 +18,7 @@ const { getSupabaseAdmin } = require('./lib/flowdesk-supabase-admin');
 const ESCALATION_RE = /\b(human|agent|person|representative|speak to someone|talk to someone|real person)\b/i;
 const URGENCY_TO_PRIORITY = { critical: 'hot', high: 'hot', medium: 'warm', low: 'normal' };
 const MAX_TURNS = 10;
-const FAREWELL_RE = /\b(have a great day|have a wonderful day|goodbye|take care|noted your request)\b/i;
+const FAREWELL_RE = /have a great day|have a wonderful day|goodbye|take care|we'll be in touch|someone will reach out|i've noted|noted your/i;
 
 function extractNameFromHistory(history) {
   for (let i = 0; i < history.length; i++) {
@@ -44,7 +44,7 @@ function extractIntentFromHistory(history) {
 function ariaTwiml(message, gatherAction, timeoutUrl) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say voice="Polly.Joanna-Neural">${escapeXml(message)}</Say>
+  <Say voice="Polly.Matthew-Neural">${escapeXml(message)}</Say>
   <Gather input="speech" action="${escapeXml(gatherAction)}" method="POST"
           speechTimeout="auto" actionOnEmptyResult="true" speechModel="phone_call" enhanced="true" language="en-US">
   </Gather>
@@ -180,9 +180,9 @@ exports.handler = async (event) => {
     if (forwardNumber) {
       return xml(200, `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say voice="Polly.Joanna-Neural">One moment while I connect you with a team member.</Say>
+  <Say voice="Polly.Matthew-Neural">One moment while I connect you with a team member.</Say>
   <Dial timeout="30" callerId="${escapeXml(From || '')}">${escapeXml(forwardNumber)}</Dial>
-  <Say voice="Polly.Joanna-Neural">No one is available right now. Please call back at your convenience. Goodbye.</Say>
+  <Say voice="Polly.Matthew-Neural">No one is available right now. Please call back at your convenience. Goodbye.</Say>
   <Hangup/>
 </Response>`);
     }
@@ -335,7 +335,7 @@ exports.handler = async (event) => {
 
     return xml(200, `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say voice="Polly.Joanna-Neural">${escapeXml(farewell)}</Say>
+  <Say voice="Polly.Matthew-Neural">${escapeXml(farewell)}</Say>
   <Hangup/>
 </Response>`);
   }
@@ -343,7 +343,7 @@ exports.handler = async (event) => {
   // Completion triggers: farewell words in response, soft turn limit, or name + reason both collected
   const nameFromHistory = extractNameFromHistory(historyWithUser);
   const hasReason = historyWithUser.filter(m => m.role === 'user').some(m => (m.content || '').split(/\s+/).length >= 5);
-  const conversationDone = FAREWELL_RE.test(claudeText) || turn >= 5 || (nameFromHistory && hasReason);
+  const conversationDone = FAREWELL_RE.test(claudeText) || turn >= 4 || (nameFromHistory && hasReason);
 
   if (conversationDone) {
     const softLead = {
@@ -412,7 +412,7 @@ exports.handler = async (event) => {
 
     return xml(200, `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say voice="Polly.Joanna-Neural">${escapeXml(farewellText)}</Say>
+  <Say voice="Polly.Matthew-Neural">${escapeXml(farewellText)}</Say>
   <Hangup/>
 </Response>`);
   }

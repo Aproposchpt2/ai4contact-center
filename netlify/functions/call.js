@@ -16,7 +16,7 @@ const { getSupabaseAdmin } = require('./lib/flowdesk-supabase-admin');
 function ariaTwiml(message, gatherAction, timeoutUrl) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say voice="Polly.Joanna-Neural">${escapeXml(message)}</Say>
+  <Say voice="Polly.Matthew-Neural">${escapeXml(message)}</Say>
   <Gather input="speech" action="${escapeXml(gatherAction)}" method="POST"
           speechTimeout="auto" actionOnEmptyResult="true" speechModel="phone_call" enhanced="true" language="en-US">
   </Gather>
@@ -37,7 +37,7 @@ exports.handler = async (event) => {
     const timeoutCount = parseInt(qs.timeout_count || '1', 10);
     const callSid = qs.call_sid || body.CallSid || '';
     if (timeoutCount >= 2) {
-      return xml(200, `<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="Polly.Joanna-Neural">I'm sorry I wasn't able to assist you today. Please call back when you're ready. Goodbye.</Say><Hangup/></Response>`);
+      return xml(200, `<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="Polly.Matthew-Neural">I'm sorry I wasn't able to assist you today. Please call back when you're ready. Goodbye.</Say><Hangup/></Response>`);
     }
     const gatherAction = buildAbsoluteFunctionUrl(event, 'flowdesk-twilio-gather', { turn: 1, call_sid: callSid });
     const nextTimeout = buildAbsoluteFunctionUrl(event, 'call', { timeout: 'true', timeout_count: timeoutCount + 1, call_sid: callSid });
