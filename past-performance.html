@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Past Performance — FlowDesk Pro Contact Center</title>
+  <meta name="description" content="Enterprise voice engineering experience and AI automation products from Apropos Group LLC — FlowDesk Pro." />
+  <meta name="theme-color" content="#020407" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+:root{
+  --black:#020407;--deep:#06101f;--surface:#0A1424;--panel:#0D1B30;--panel-2:#101F36;
+  --line:rgba(116,184,255,.18);--line-strong:rgba(115,230,255,.40);
+  --blue:#4A7FFF;--blue-2:#1EA7FF;--cyan:#73E6FF;--green:#55E6A5;--gold:#E6C26B;--red:#FF6B7A;
+  --text:#F4F8FF;--muted:#A8B8D0;--soft:#6E819B;
+  --shadow:0 28px 90px rgba(0,0,0,.45);--radius:20px;--radius-lg:30px;
+  font-family:'DM Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(115,230,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(115,230,255,.025) 1px,transparent 1px),
+    radial-gradient(circle at 14% 0%,rgba(74,127,255,.24),transparent 34rem),
+    radial-gradient(circle at 84% 18%,rgba(115,230,255,.12),transparent 34rem),
+    linear-gradient(180deg,#020407 0%,#06101f 52%,#081626 100%);
+  background-size:72px 72px,72px 72px,auto,auto,auto;
+  color:var(--text);font-size:16px;line-height:1.7;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  z-index:0;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.shell{position:relative;z-index:1;min-height:100vh}
+
+.nav{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:16px clamp(18px,4vw,52px);
+  background:rgba(2,4,7,.82);border-bottom:1px solid var(--line);backdrop-filter:blur(22px);
+}
+.brand{display:flex;align-items:center;gap:13px;text-decoration:none;min-width:240px}
+.brand-mark{
+  width:50px;height:50px;border-radius:14px;border:1px solid rgba(115,230,255,.26);
+  background:rgba(6,16,31,.82);display:grid;place-items:center;
+  box-shadow:0 0 34px rgba(74,127,255,.28);overflow:hidden;
+}
+.brand-mark img{width:92%;height:92%;object-fit:contain;filter:drop-shadow(0 0 18px rgba(115,230,255,.52))}
+.brand-name{font-family:'DM Serif Display',serif;font-size:1.18rem;color:var(--text);line-height:1.1}
+.brand-name span{display:block;font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-links a{font-weight:700;font-size:.88rem;color:var(--muted);padding:8px 14px;border-radius:999px;transition:.18s}
+.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.055)}
+.nav-cta{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.08em;
+  text-transform:uppercase;font-weight:900;color:#020407;
+  background:linear-gradient(135deg,#f7fbff,var(--cyan) 48%,var(--blue));
+  padding:10px 20px;border-radius:999px;box-shadow:0 0 28px rgba(74,127,255,.38);
+  transition:.18s;white-space:nowrap;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 44px rgba(74,127,255,.52)}
+
+/* PAGE HEADER */
+.page-header{
+  padding:clamp(3.5rem,8vw,5.5rem) clamp(18px,5vw,74px) clamp(2.5rem,5vw,4rem);
+  border-bottom:1px solid var(--line);
+  max-width:900px;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:900;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--cyan);background:rgba(115,230,255,.08);border:1px solid rgba(115,230,255,.22);
+  padding:6px 14px;border-radius:999px;margin-bottom:1.4rem;
+}
+.eyebrow::before{
+  content:'';width:7px;height:7px;border-radius:50%;
+  background:var(--cyan);box-shadow:0 0 12px var(--cyan);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.8rem,5.5vw,5rem);font-weight:400;line-height:.96;letter-spacing:-.02em;color:var(--text);margin-bottom:1.2rem}
+h1 em{font-style:italic;color:var(--cyan)}
+.page-desc{color:var(--muted);font-size:1.06rem;line-height:1.85;max-width:680px}
+
+/* SECTIONS */
+.section{padding:clamp(3rem,6vw,5rem) clamp(18px,5vw,74px);border-top:1px solid var(--line)}
+.section-head{margin-bottom:2.4rem}
+.kicker{
+  font-family:'JetBrains Mono',monospace;font-size:.64rem;font-weight:900;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);
+  display:block;margin-bottom:.7rem;
+}
+.section-head h2{
+  font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,3rem);
+  font-weight:400;line-height:1.04;color:var(--text);margin-bottom:.6rem;
+}
+.section-head h2 em{font-style:italic;color:var(--cyan)}
+.section-desc{color:var(--muted);font-size:1rem;line-height:1.85;max-width:700px}
+
+/* PROJECT CARDS */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:18px}
+.project-card{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(145deg,rgba(13,27,48,.95),rgba(6,16,31,.88));
+  padding:28px 30px;
+  transition:border-color .2s,box-shadow .2s;
+  position:relative;overflow:hidden;
+}
+.project-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 0% 0%,rgba(115,230,255,.07),transparent 60%);
+  pointer-events:none;
+}
+.project-card:hover{border-color:var(--line-strong);box-shadow:0 0 44px rgba(74,127,255,.12)}
+.project-number{
+  font-family:'JetBrains Mono',monospace;font-size:.56rem;font-weight:900;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);
+  margin-bottom:.75rem;
+}
+.project-card h3{
+  font-family:'DM Serif Display',serif;font-size:1.35rem;font-weight:400;
+  color:var(--text);line-height:1.2;margin-bottom:1rem;
+}
+.project-meta{display:flex;flex-direction:column;gap:8px}
+.meta-row{display:flex;gap:12px;font-size:.875rem;line-height:1.55}
+.meta-label{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--soft);
+  min-width:72px;padding-top:2px;flex-shrink:0;
+}
+.meta-value{color:var(--muted)}
+.tag{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.56rem;
+  font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 10px;border-radius:999px;margin-right:5px;margin-top:6px;
+}
+.tag-blue{background:rgba(74,127,255,.12);color:var(--blue-2);border:1px solid rgba(74,127,255,.22)}
+.tag-cyan{background:rgba(115,230,255,.08);color:var(--cyan);border:1px solid rgba(115,230,255,.18)}
+.tag-green{background:rgba(85,230,165,.08);color:var(--green);border:1px solid rgba(85,230,165,.18)}
+.tag-gold{background:rgba(230,194,107,.08);color:var(--gold);border:1px solid rgba(230,194,107,.18)}
+
+/* PRODUCT CARDS */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:16px}
+.product-card{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(145deg,rgba(13,27,48,.95),rgba(6,16,31,.88));
+  padding:26px 28px;
+  transition:border-color .2s,box-shadow .2s;
+  position:relative;overflow:hidden;
+}
+.product-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 100% 0%,rgba(74,127,255,.08),transparent 55%);
+  pointer-events:none;
+}
+.product-card:hover{border-color:rgba(74,127,255,.4);box-shadow:0 0 36px rgba(74,127,255,.1)}
+.product-icon{
+  width:42px;height:42px;border-radius:12px;
+  background:rgba(74,127,255,.12);border:1px solid rgba(74,127,255,.22);
+  display:grid;place-items:center;margin-bottom:1rem;font-size:1.2rem;
+}
+.product-card h3{
+  font-family:'DM Serif Display',serif;font-size:1.15rem;font-weight:400;
+  color:var(--text);line-height:1.2;margin-bottom:.5rem;
+}
+.product-card p{color:var(--muted);font-size:.9rem;line-height:1.7}
+.product-tags{display:flex;flex-wrap:wrap;margin-top:.85rem}
+
+/* FOOTER */
+footer{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1.2rem;flex-wrap:wrap;
+  padding:2rem clamp(18px,5vw,74px);
+  border-top:1px solid var(--line);color:var(--soft);font-size:.84rem;
+}
+.footer-links{display:flex;gap:1rem;flex-wrap:wrap}
+.footer-links a{color:var(--cyan);font-weight:700;transition:.18s}
+.footer-links a:hover{color:var(--text)}
+
+@media(max-width:640px){
+  .project-meta .meta-label{min-width:60px}
+  h1{letter-spacing:-.01em}
+}
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <nav class="nav">
+    <a class="brand" href="/">
+      <div class="brand-mark">
+        <img src="AI4-FLOWDESK-PRO-LOGO.png" alt="FlowDesk Pro" />
+      </div>
+      <div class="brand-name">
+        FlowDesk Pro
+        <span>Contact Center</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="/">Overview</a>
+      <a href="https://lead-management.aiflowdeskpro.com">Lead Manager</a>
+      <a href="https://ai4businesses.org">AI4 Businesses</a>
+    </nav>
+    <a class="nav-cta" href="/demo-request.html">Request Demo</a>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="eyebrow">Apropos Group LLC</div>
+    <h1>Past <em>Performance</em></h1>
+    <p class="page-desc">Enterprise voice communications engineering and AI-powered business automation — built and delivered for institutions, federal facilities, and growing businesses.</p>
+  </div>
+
+  <!-- SECTION 1: ENTERPRISE VOICE -->
+  <section class="section">
+    <div class="section-head">
+      <span class="kicker">Section 1 — Engineering Experience</span>
+      <h2>Enterprise Voice &amp; <em>Communications</em></h2>
+      <p class="section-desc">Large-scale telephony design, deployment, and ongoing management across higher education, federal healthcare, and enterprise environments.</p>
+    </div>
+
+    <div class="project-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card">
+        <div class="project-number">Project 01</div>
+        <h3>Microsoft Teams Enterprise Voice Migration</h3>
+        <div class="project-meta">
+          <div class="meta-row">
+            <span class="meta-label">Scope</span>
+            <span class="meta-value">2,000+ users across 100+ departments</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Environment</span>
+            <span class="meta-value">Cisco CUBE SBC, Microsoft Direct Routing</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Result</span>
+            <span class="meta-value">Replaced CUCM, Unity, and UCCX — significant cost reduction and platform consolidation</span>
+          </div>
+        </div>
+        <div>
+          <span class="tag tag-blue">Teams Direct Routing</span>
+          <span class="tag tag-cyan">Cisco CUBE</span>
+          <span class="tag tag-green">2,000+ Users</span>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card">
+        <div class="project-number">Project 02</div>
+        <h3>Cisco UCCX IVR — College of Southern Nevada</h3>
+        <div class="project-meta">
+          <div class="meta-row">
+            <span class="meta-label">Scope</span>
+            <span class="meta-value">2,100+ users, multi-campus institution</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Delivered</span>
+            <span class="meta-value">Automated call flows and department queues across all campuses</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Status</span>
+            <span class="meta-value">Ongoing operational management</span>
+          </div>
+        </div>
+        <div>
+          <span class="tag tag-blue">Cisco UCCX</span>
+          <span class="tag tag-cyan">IVR Design</span>
+          <span class="tag tag-gold">Higher Education</span>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card">
+        <div class="project-number">Project 03</div>
+        <h3>VA Medical Facility Telephony</h3>
+        <div class="project-meta">
+          <div class="meta-row">
+            <span class="meta-label">Client</span>
+            <span class="meta-value">U.S. Department of Veterans Affairs</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Scope</span>
+            <span class="meta-value">CME deployment, SIP trunking via Cox Communications</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Environment</span>
+            <span class="meta-value">Federal healthcare facility</span>
+          </div>
+        </div>
+        <div>
+          <span class="tag tag-blue">SIP Trunking</span>
+          <span class="tag tag-cyan">CME</span>
+          <span class="tag tag-gold">Federal Healthcare</span>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="project-card">
+        <div class="project-number">Project 04</div>
+        <h3>COVID Collaboration Deployment</h3>
+        <div class="project-meta">
+          <div class="meta-row">
+            <span class="meta-label">Scope</span>
+            <span class="meta-value">1,800 faculty and staff</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Platform</span>
+            <span class="meta-value">Cisco WebEx Teams</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Timeline</span>
+            <span class="meta-value">Rapid deployment under crisis conditions — institution-wide remote work enablement</span>
+          </div>
+        </div>
+        <div>
+          <span class="tag tag-blue">Cisco WebEx</span>
+          <span class="tag tag-cyan">Rapid Deploy</span>
+          <span class="tag tag-green">1,800 Users</span>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="project-card">
+        <div class="project-number">Project 05</div>
+        <h3>DWED Community Outreach</h3>
+        <div class="project-meta">
+          <div class="meta-row">
+            <span class="meta-label">Scope</span>
+            <span class="meta-value">70 staff, 8 departments</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Delivered</span>
+            <span class="meta-value">UCCX auto-attendant and complete call flow architecture</span>
+          </div>
+        </div>
+        <div>
+          <span class="tag tag-blue">Cisco UCCX</span>
+          <span class="tag tag-cyan">Auto-Attendant</span>
+          <span class="tag tag-gold">Call Flow Design</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 2: AI AUTOMATION PRODUCTS -->
+  <section class="section">
+    <div class="section-head">
+      <span class="kicker">Section 2 — AI Automation Products</span>
+      <h2>FlowDesk Pro <em>Suite</em></h2>
+      <p class="section-desc">Five AI-powered business automation products built and operated by Apropos Group LLC — covering every stage of the customer communication lifecycle.</p>
+    </div>
+
+    <div class="product-grid">
+
+      <div class="product-card">
+        <div class="product-icon">⚡</div>
+        <h3>FlowDesk Pro Contact Center</h3>
+        <p>Unified AI contact center with live dashboard, intelligent call routing, lead capture, and real-time interaction logging — 24/7.</p>
+        <div class="product-tags">
+          <span class="tag tag-cyan">Voice AI</span>
+          <span class="tag tag-blue">Live Dashboard</span>
+          <span class="tag tag-green">Lead Capture</span>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">📋</div>
+        <h3>FlowDesk Pro Lead Manager</h3>
+        <p>Intelligent lead tracking and CRM with automated pipeline management, follow-up scheduling, and multi-source lead intake.</p>
+        <div class="product-tags">
+          <span class="tag tag-cyan">CRM</span>
+          <span class="tag tag-blue">Pipeline Automation</span>
+          <span class="tag tag-green">Multi-Source Intake</span>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">📞</div>
+        <h3>Smart Auto-Attendant System</h3>
+        <p>AI receptionist that answers every inbound call, routes callers to the right department, and logs interactions automatically.</p>
+        <div class="product-tags">
+          <span class="tag tag-cyan">Auto-Attendant</span>
+          <span class="tag tag-blue">Call Routing</span>
+          <span class="tag tag-gold">24/7 Coverage</span>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">🎙️</div>
+        <h3>AI Voice Attendant System</h3>
+        <p>Conversational AI voice agent for inbound call handling, caller qualification, and warm handoff to the right team member.</p>
+        <div class="product-tags">
+          <span class="tag tag-cyan">Conversational AI</span>
+          <span class="tag tag-blue">Qualification</span>
+          <span class="tag tag-gold">Warm Handoff</span>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">🔄</div>
+        <h3>Business Intake Engine</h3>
+        <p>Automated intake and follow-up workflows for service businesses — from first contact through appointment scheduling and SMS confirmation.</p>
+        <div class="product-tags">
+          <span class="tag tag-cyan">Intake Automation</span>
+          <span class="tag tag-blue">SMS Follow-Up</span>
+          <span class="tag tag-green">Appointment Workflows</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Apropos Group LLC · FlowDesk Pro · Las Vegas, NV</span>
+    <div class="footer-links">
+      <a href="/">Overview</a>
+      <a href="https://lead-management.aiflowdeskpro.com">Lead Manager</a>
+      <a href="https://auto-attendant.aiflowdeskpro.com">Auto-Attendant</a>
+      <a href="https://ai4businesses.org">AI4 Businesses</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms &amp; Conditions</a>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
