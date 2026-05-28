@@ -58,13 +58,50 @@ exports.handler = async (event) => {
       interest_area: interest_area || null,
       priority: priority || 'normal',
       lead_status: lead_status || 'new',
-      source: 'conversational_ai_agent_demo',
+      source: 'contact-center',
     })
     .select('id, caller_id, session_id, business_name, contact_name, callback_phone_last4, interest_area, priority, lead_status, source, created_at')
     .single();
 
   if (dbErr) {
     return error(500, 'DB_ERROR', 'Lead creation failed', corsHeaders);
+  }
+
+  try {
+    const now = new Date().toISOString();
+    await supabase.from('lead_manager_records').insert({
+      created_at: now,
+      updated_at: now,
+      tenant_id: 'apropos-ai4-businesses',
+      client_name: 'Apropos Group LLC',
+      business_name: 'FlowDesk Pro Contact Center',
+      contact_name: contact_name || 'Voice Caller',
+      email: '',
+      phone: '',
+      source: 'contact-center',
+      channel: 'voice',
+      source_page: 'aria-voice-agent',
+      lead_status: 'New / Needs Review',
+      urgency: (priority === 'hot') ? 'High' : 'Normal',
+      service_needed: interest_area || 'Voice inquiry',
+      category: 'Voice Inquiry',
+      preferred_contact_method: 'Phone callback',
+      message: interest_area || '',
+      details: `Voice inquiry via Aria. Intent: ${interest_area || 'Not provided'}. Phone (last 4): ***${callbackPhoneLast4 || '????'}.`,
+      next_action: 'Follow up with caller via phone',
+      follow_up_needed: true,
+      appointment_requested: false,
+      sms_consent: false,
+      metadata: {
+        origin_site: 'aiflowdeskpro.com',
+        source_site: 'ai4contact-center',
+        channel: 'voice',
+        lead_source_type: 'contact_center_voice',
+        phone_last4: callbackPhoneLast4 || null,
+      },
+    });
+  } catch (e) {
+    console.error('LM DUAL-WRITE ERROR:', e.message);
   }
 
   return json(201, { ok: true, lead: data }, corsHeaders);
