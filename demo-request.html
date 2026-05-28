@@ -102,6 +102,13 @@ input.error{border-color:var(--red)}
 .form-general-error{display:none;background:rgba(255,107,122,.06);border:1px solid rgba(255,107,122,.22);border-radius:12px;padding:12px 16px;font-size:.88rem;color:var(--red);margin-top:12px;text-align:center}
 .form-general-error.show{display:block}
 
+.consent-label{
+  font-family:'DM Sans',system-ui,sans-serif;font-size:.85rem;font-weight:400;
+  color:var(--muted);line-height:1.5;letter-spacing:normal;text-transform:none;
+  display:flex;align-items:flex-start;gap:10px;cursor:pointer;
+  white-space:normal;word-break:normal;margin-bottom:0;
+}
+
 footer{
   text-align:center;padding:1.5rem;border-top:1px solid var(--line);
   color:var(--soft);font-size:.8rem;
@@ -148,7 +155,7 @@ footer{
             <div class="field-error" id="err_email">Please enter a valid email address.</div>
           </div>
           <div class="field">
-            <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:.85rem;color:var(--muted)">
+            <label class="consent-label">
               <input type="checkbox" id="sms_consent" required style="margin-top:3px;flex-shrink:0">
               <span>I agree to receive SMS notifications from FlowDesk Pro. Reply STOP to opt out at any time. Message and data rates may apply. See our <a href="/privacy.html" style="color:var(--cyan)">Privacy Policy</a> and <a href="/terms.html" style="color:var(--cyan)">Terms</a>.</span>
             </label>
