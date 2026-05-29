@@ -93,8 +93,8 @@ exports.handler = async (event) => {
     }
   } else {
     greeting =
-      `Thank you for calling ${centerName}. ` +
-      `To help route your call, please briefly tell me the reason for your call.`;
+      'Hello, you’ve reached FlowDesk Pro. ' +
+      'May I have your first and last name and the reason for your call?';
   }
 
   const gatherAction = buildAbsoluteFunctionUrl(
