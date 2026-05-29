@@ -19,7 +19,7 @@ const ESCALATION_RE = /\b(human|agent|person|representative|speak to someone|tal
 const URGENCY_TO_PRIORITY = { critical: 'hot', high: 'hot', medium: 'warm', low: 'normal' };
 const MAX_TURNS = 10;
 const FAREWELL_RE = /have a great day|have a wonderful day|goodbye|take care|we'll be in touch|someone will reach out|i've noted|noted your/i;
-const DEFAULT_OPENAI_MODEL = 'gpt-5.4-mini';
+const DEFAULT_OPENAI_MODEL = 'gpt-4.1-mini';
 const AGENT_NAME = process.env.FLOWDESK_AGENT_NAME || 'Marcus';
 const AGENT_VOICE = process.env.FLOWDESK_AGENT_VOICE || 'Polly.Matthew-Neural';
 
